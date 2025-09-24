@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Crop Advisory</title>
+    <style>
+        body { font-family: Arial; text-align: center; padding: 30px; background: #f0fff0; }
+        h1 { color: green; }
+        select { padding: 8px; font-size: 16px; margin-bottom: 20px; }
+        input[type="file"] { margin: 20px 0; }
+        button { padding: 10px 20px; font-size: 16px; background: green; color: white; border: none; cursor: pointer; border-radius: 5px; }
+        button:hover { background: darkgreen; }
+        #result { margin-top: 20px; font-size: 18px; color: #004400; font-weight: bold; }
+        img { max-width: 300px; margin-top: 20px; border: 2px solid green; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <h1 id="title">🌾 Smart Crop Advisory</h1>
+
+    <label for="langSelect" id="langLabel">🌐 Select Language:</label>
+    <select id="langSelect">
+        <option value="en">English</option>
+        <option value="hi">हिंदी</option>
+        <option value="kn">ಕನ್ನಡ</option>
+        <option value="ta">தமிழ்</option>
+    </select>
+
+    <p id="uploadText">Upload a leaf image to detect plant disease:</p>
+    <input type="file" id="fileInput" accept="image/*">
+    <br>
+    <button id="detectBtn">Detect Disease</button>
+    
+    <div id="result"></div>
+    <img id="preview" src="" alt="Preview Image">
+
+    <script>
+        const translations = {
+            en: {
+                title: "🌾 Smart Crop Advisory",
+                langLabel: "🌐 Select Language:",
+                uploadText: "Upload a leaf image to detect plant disease:",
+                detectBtn: "Detect Disease",
+                resultText: "🌿 Detected Disease: ",
+                alertNoFile: "Please select an image!",
+                alertError: "Error detecting disease. Make sure backend is running!"
+            },
+            hi: {
+                title: "🌾 स्मार्ट फसल सलाह",
+                langLabel: "🌐 भाषा चुनें:",
+                uploadText: "पौधे की बीमारी पता करने के लिए पत्ती की छवि अपलोड करें:",
+                detectBtn: "बीमारी पता करें",
+                resultText: "🌿 पता की गई बीमारी: ",
+                alertNoFile: "कृपया एक छवि चुनें!",
+                alertError: "बीमारी का पता लगाने में त्रुटि। सुनिश्चित करें कि बैकएंड चल रहा है!"
+            },
+            kn: {
+                title: "🌾 ಸ್ಮಾರ್ಟ್ ಕೃಷಿ ಸಲಹೆ",
+                langLabel: "🌐 ಭಾಷೆ ಆಯ್ಕೆಮಾಡಿ:",
+                uploadText: "ಮರಿಗಳ ರೋಗವನ್ನು ಪತ್ತೆಮಾಡಲು ಎಲೆ ಚಿತ್ರವನ್ನು ಅಪ್ಲೋಡ್ ಮಾಡಿ:",
+                detectBtn: "ರೋಗ ಪತ್ತೆಮಾಡಿ",
+                resultText: "🌿 ಪತ್ತೆಯಾದ ರೋಗ: ",
+                alertNoFile: "ದಯವಿಟ್ಟು ಚಿತ್ರವನ್ನು ಆಯ್ಕೆಮಾಡಿ!",
+                alertError: "ರೋಗ ಪತ್ತೆಮಾಡುವಲ್ಲಿ ದೋಷ. ಬ್ಯಾಕ್‌ಎಂಡ್ ಚಾಲನೆಯಲ್ಲಿರುವುದನ್ನು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ!"
+            },
+            ta: {
+                title: "🌾 ஸ்மார்ட் பயிர் ஆலோசனை",
+                langLabel: "🌐 மொழியைத் தேர்ந்தெடுக்கவும்:",
+                uploadText: "செடி நோயை கண்டறிய இலை படத்தை பதிவேற்றவும்:",
+                detectBtn: "நோய் கண்டறி",
+                resultText: "🌿 கண்டறியப்பட்ட நோய்: ",
+                alertNoFile: "தயவுசெய்து படத்தைத் தேர்ந்தெடுக்கவும்!",
+                alertError: "நோய் கண்டறிய பொறுப்பு தோல்வியடைந்தது. பின்புறம் இயங்குகின்றதை உறுதிப்படுத்தவும்!"
+            }
+        };
+
+        function translatePage() {
+            const lang = document.getElementById("langSelect").value;
+            const t = translations[lang];
+
+            document.getElementById("title").innerText = t.title;
+            document.getElementById("langLabel").innerText = t.langLabel;
+            document.getElementById("uploadText").innerText = t.uploadText;
+            document.getElementById("detectBtn").innerText = t.detectBtn;
+        }
+
+        document.getElementById("langSelect").addEventListener("change", translatePage);
+        translatePage(); // initial translation
+
+        document.getElementById("detectBtn").addEventListener("click", () => {
+            const lang = document.getElementById("langSelect").value;
+            const t = translations[lang];
+
+            const file = document.getElementById('fileInput').files[0];
+            if (!file) { alert(t.alertNoFile); return; }
+
+            const preview = document.getElementById('preview');
+            preview.src = URL.createObjectURL(file);
+
+            const formData = new FormData();
+            formData.append("file", file);
+
+            fetch("http://localhost:8000/predict/", { method: "POST", body: formData })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('result').innerText = t.resultText + data.disease;
+                })
+                .catch(err => { 
+                    console.error(err);
+                    alert(t.alertError);
+                });
+        });
+    </script>
+</body>
+</html>

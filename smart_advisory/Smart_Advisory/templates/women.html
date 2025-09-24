@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Women Farmers Support Hub</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5fff5;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 { color: green; }
+        .btn {
+            display: block;
+            margin: 12px auto;
+            padding: 12px;
+            width: 300px;
+            background: white;
+            color: green;
+            border: 2px solid green;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background: green;
+            color: white;
+        }
+        .section {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            border: 2px solid green;
+            border-radius: 10px;
+            background: #ffffff;
+            text-align: left;
+        }
+        .link-btn {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 8px 12px;
+            background: blue;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .back-btn {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background: red;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
+        }
+        select {
+            margin: 15px;
+            padding: 8px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<h1 id="title">👩‍🌾 Women Farmers Support Hub</h1>
+
+<!-- Language Selector -->
+<label id="langLabel" for="lang">🌐 Select Language:</label>
+<select id="lang">
+    <option value="en">English</option>
+    <option value="hi">हिंदी</option>
+    <option value="kn">ಕನ್ನಡ</option>
+    <option value="ta">தமிழ்</option>
+</select>
+
+<!-- Homepage Buttons -->
+<div id="home">
+    <button class="btn" onclick="showSection('community')" id="communityBtn">🤝 Community</button>
+    <button class="btn" onclick="showSection('helpline')" id="helplineBtn">📞 Helpline</button>
+    <button class="btn" onclick="showSection('mentorship')" id="mentorshipBtn">🎓 Mentorship</button>
+    <button class="btn" onclick="showSection('schemes')" id="schemesBtn">🏦 Schemes & Loans</button>
+</div>
+
+<!-- Sections -->
+<div id="community" class="section"></div>
+<div id="helpline" class="section"></div>
+<div id="mentorship" class="section"></div>
+<div id="schemes" class="section"></div>
+
+<script>
+const translations = {
+    en: {
+        title: "👩‍🌾 Women Farmers Support Hub",
+        langLabel: "🌐 Select Language:",
+        communityBtn: "🤝 Community",
+        helplineBtn: "📞 Helpline",
+        mentorshipBtn: "🎓 Mentorship",
+        schemesBtn: "🏦 Schemes & Loans",
+        community: `<h2>🤝 Community Groups</h2>
+                    <p>📱 Join <a href="https://chat.whatsapp.com/" target="_blank">WhatsApp groups</a> of women farmers.</p>
+                    <p>🐦 Connect with women farmers on <a href="https://twitter.com" target="_blank">Twitter</a>.</p>`,
+        helpline: `<h2>📞 Helpline</h2>
+                   <p><b>National Helpline:</b> 1800-123-456</p>
+                   <p><b>State Helpline:</b> 1800-987-654</p>`,
+        mentorship: `<h2>🎓 Mentorship Program</h2>
+                     <p><b>Smt. Anjali Devi – Organic Farming Expert:</b> anjali@example.com 📞 +91-9876543210</p>
+                     <p><b>Dr. Kavita Reddy – Dairy Specialist:</b> kavita@example.com 📞 +91-8765432109</p>
+                     <p><b>Mrs. Lata Sharma – Agri-Business Mentor:</b> lata@example.com 📞 +91-7654321098</p>`,
+        schemes: `<h2>🏦 Schemes & Loans</h2>
+                  <p><b>Mahila Kisan Sashaktikaran Pariyojana:</b> <a class="link-btn" href="https://nrlm.gov.in" target="_blank">Visit</a></p>
+                  <p><b>Namo Drone Didi Scheme:</b> <a class="link-btn" href="https://www.india.gov.in/spotlight/namo-drone-didi" target="_blank">Visit</a></p>
+                  <p><b>Stand Up India:</b> <a class="link-btn" href="https://standupmitra.in" target="_blank">Visit</a></p>
+                  <p><b>Mudra Yojana:</b> <a class="link-btn" href="https://mudra.org.in" target="_blank">Visit</a></p>
+                  <p><b>Rashtriya Mahila Kosh:</b> <a class="link-btn" href="https://www.india.gov.in/official-website-rashtriya-mahila-kosh" target="_blank">Visit</a></p>
+                  <p><b>Kisan Credit Card:</b> <a class="link-btn" href="https://pmkisan.gov.in" target="_blank">Visit</a></p>`
+    },
+    hi: {
+        title: "👩‍🌾 महिला किसान सहायता केंद्र",
+        langLabel: "🌐 भाषा चुनें:",
+        communityBtn: "🤝 समुदाय",
+        helplineBtn: "📞 हेल्पलाइन",
+        mentorshipBtn: "🎓 मार्गदर्शन",
+        schemesBtn: "🏦 योजनाएं और ऋण",
+        community: `<h2>🤝 समुदाय समूह</h2>
+                    <p>📱 <a href="https://chat.whatsapp.com/" target="_blank">WhatsApp समूह</a> से जुड़ें।</p>
+                    <p>🐦 <a href="https://twitter.com" target="_blank">Twitter</a> पर महिला किसान समुदाय।</p>`,
+        helpline: `<h2>📞 हेल्पलाइन</h2>
+                   <p><b>राष्ट्रीय हेल्पलाइन:</b> 1800-123-456</p>
+                   <p><b>राज्य हेल्पलाइन:</b> 1800-987-654</p>`,
+        mentorship: `<h2>🎓 मार्गदर्शन कार्यक्रम</h2>
+                     <p><b>श्रीमती अंजलि देवी – जैविक खेती:</b> anjali@example.com 📞 +91-9876543210</p>
+                     <p><b>डॉ. कविता रेड्डी – डेयरी विशेषज्ञ:</b> kavita@example.com 📞 +91-8765432109</p>
+                     <p><b>श्रीमती लता शर्मा – कृषि व्यवसाय:</b> lata@example.com 📞 +91-7654321098</p>`,
+        schemes: `<h2>🏦 योजनाएं और ऋण</h2>
+                  <p><b>महिला किसान सशक्तिकरण परियोजना:</b> <a class="link-btn" href="https://nrlm.gov.in" target="_blank">देखें</a></p>
+                  <p><b>नमो ड्रोन दीदी योजना:</b> <a class="link-btn" href="https://agricoop.nic.in" target="_blank">देखें</a></p>
+                  <p><b>स्टैंड अप इंडिया:</b> <a class="link-btn" href="https://standupmitra.in" target="_blank">देखें</a></p>
+                  <p><b>मुद्रा योजना:</b> <a class="link-btn" href="https://mudra.org.in" target="_blank">देखें</a></p>
+                  <p><b>राष्ट्रीय महिला कोष:</b> <a class="link-btn" href="https://rmk.nic.in" target="_blank">देखें</a></p>
+                  <p><b>किसान क्रेडिट कार्ड:</b> <a class="link-btn" href="https://pmkisan.gov.in" target="_blank">देखें</a></p>`
+    },
+    kn: {
+        title: "👩‍🌾 ಮಹಿಳಾ ರೈತರ ಸಹಾಯ ಕೇಂದ್ರ",
+        langLabel: "🌐 ಭಾಷೆ ಆಯ್ಕೆಮಾಡಿ:",
+        communityBtn: "🤝 ಸಮುದಾಯ",
+        helplineBtn: "📞 ಸಹಾಯವಾಣಿ",
+        mentorshipBtn: "🎓 ಮಾರ್ಗದರ್ಶನ",
+        schemesBtn: "🏦 ಯೋಜನೆಗಳು ಮತ್ತು ಸಾಲಗಳು",
+        community: `<h2>🤝 ಸಮುದಾಯ ಗುಂಪುಗಳು</h2>
+                    <p>📱 <a href="https://chat.whatsapp.com/" target="_blank">WhatsApp ಗುಂಪು</a> ಸೇರಿ.</p>
+                    <p>🐦 <a href="https://twitter.com" target="_blank">Twitter</a> ಸಮುದಾಯದಲ್ಲಿ ಸಂಪರ್ಕ.</p>`,
+        helpline: `<h2>📞 ಸಹಾಯವಾಣಿ</h2>
+                   <p><b>ರಾಷ್ಟ್ರೀಯ ಸಹಾಯವಾಣಿ:</b> 1800-123-456</p>
+                   <p><b>ರಾಜ್ಯ ಸಹಾಯವಾಣಿ:</b> 1800-987-654</p>`,
+        mentorship: `<h2>🎓 ಮಾರ್ಗದರ್ಶನ</h2>
+                     <p><b>ಅಂಜಲಿ ದೇವಿ – ಆರ್ಗಾನಿಕ್ ಫಾರ್ಮಿಂಗ್ ತಜ್ಞರು:</b> anjali@example.com 📞 +91-9876543210</p>
+                     <p><b>ಡಾ. ಕವಿತಾ ರೆಡ್ಡಿ – ಡೈರಿ ತಜ್ಞರು:</b> kavita@example.com 📞 +91-8765432109</p>
+                     <p><b>ಲತಾ ಶರ್ಮಾ – ಕೃಷಿ ವ್ಯವಹಾರ ಸಲಹೆಗಾರರು:</b> lata@example.com 📞 +91-7654321098</p>`,
+        schemes: `<h2>🏦 ಯೋಜನೆಗಳು ಮತ್ತು ಸಾಲಗಳು</h2>
+                  <p><b>ಮಹಿಳಾ ರೈತ ಸಶಕ್ತೀಕರಣ ಯೋಜನೆ:</b> <a class="link-btn" href="https://nrlm.gov.in" target="_blank">ನೋಡಿ</a></p>
+                  <p><b>ನಮೋ ಡ್ರೋನ್ ದೀದಿ ಯೋಜನೆ:</b> <a class="link-btn" href="https://agricoop.nic.in" target="_blank">ನೋಡಿ</a></p>
+                  <p><b>ಸ್ಟ್ಯಾಂಡ್ ಅಪ್ ಇಂಡಿಯಾ:</b> <a class="link-btn" href="https://standupmitra.in" target="_blank">ನೋಡಿ</a></p>
+                  <p><b>ಮುದ್ರಾ ಯೋಜನೆ:</b> <a class="link-btn" href="https://mudra.org.in" target="_blank">ನೋಡಿ</a></p>
+                  <p><b>ರಾಷ್ಟ್ರೀಯ ಮಹಿಳಾ ನಿಧಿ:</b> <a class="link-btn" href="https://rmk.nic.in" target="_blank">ನೋಡಿ</a></p>
+                  <p><b>ಕೃಷಿ ಕ್ರೆಡಿಟ್ ಕಾರ್ಡ್:</b> <a class="link-btn" href="https://pmkisan.gov.in" target="_blank">ನೋಡಿ</a></p>`
+    },
+    ta: {
+        title: "👩‍🌾 மகளிர் விவசாயிகள் ஆதரவு மையம்",
+        langLabel: "🌐 மொழியைத் தேர்ந்தெடுக்கவும்:",
+        communityBtn: "🤝 சமூக",
+        helplineBtn: "📞 உதவி எண்",
+        mentorshipBtn: "🎓 வழிகாட்டுதல்",
+        schemesBtn: "🏦 திட்டங்கள் மற்றும் கடன்கள்",
+        community: `<h2>🤝 சமூகக் குழுக்கள்</h2>
+                    <p>📱 <a href="https://chat.whatsapp.com/" target="_blank">WhatsApp குழுக்கள்</a> சேரவும்.</p>
+                    <p>🐦 <a href="https://twitter.com" target="_blank">Twitter</a> விவசாயிகள் சமூகத்தில் இணையவும்.</p>`,
+        helpline: `<h2>📞 உதவி எண்</h2>
+                   <p><b>தேசிய உதவி எண்:</b> 1800-123-456</p>
+                   <p><b>மாநில உதவி எண்:</b> 1800-987-654</p>`,
+        mentorship: `<h2>🎓 வழிகாட்டுதல்</h2>
+                     <p><b>அஞ்சலி தேவி – இயற்கை விவசாய நிபுணர்:</b> anjali@example.com 📞 +91-9876543210</p>
+                     <p><b>டாக்டர் கவிதா ரெட்டி – பால் உற்பத்தி நிபுணர்:</b> kavita@example.com 📞 +91-8765432109</p>
+                     <p><b>லதா சர்மா – வேளாண் வணிக ஆலோசகர்:</b> lata@example.com 📞 +91-7654321098</p>`,
+        schemes: `<h2>🏦 திட்டங்கள் மற்றும் கடன்கள்</h2>
+                  <p><b>மகளிர் விவசாயிகள் சக்திவாய்ந்த திட்டம்:</b> <a class="link-btn" href="https://nrlm.gov.in" target="_blank">பார்க்க</a></p>
+                  <p><b>நமோ டிரோன் தீதி திட்டம்:</b> <a class="link-btn" href="https://agricoop.nic.in" target="_blank">பார்க்க</a></p>
+                  <p><b>ஸ்டாண்ட் அப் இந்தியா:</b> <a class="link-btn" href="https://standupmitra.in" target="_blank">பார்க்க</a></p>
+                  <p><b>முத்ரா யோஜனா:</b> <a class="link-btn" href="https://mudra.org.in" target="_blank">பார்க்க</a></p>
+                  <p><b>தேசிய மகளிர் நிதி:</b> <a class="link-btn" href="https://rmk.nic.in" target="_blank">பார்க்க</a></p>
+                  <p><b>விவசாய கடன் அட்டை:</b> <a class="link-btn" href="https://pmkisan.gov.in" target="_blank">பார்க்க</a></p>`
+    }
+};
+
+const backBtnText = {
+    en: "⬅ Back",
+    hi: "⬅ पीछे जाएं",
+    kn: "⬅ ಹೋಮ್ ಗೆ ಹಿಂತಿರುಗಿ",
+    ta: "⬅ பின் செல்லவும்"
+};
+
+function showSection(id) {
+    document.getElementById("home").style.display = "none";
+    document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
+
+    let lang = document.getElementById("lang").value;
+    let t = translations[lang] || translations.en;
+
+    document.getElementById(id).innerHTML = t[id] + 
+        `<button class="back-btn" onclick="goHome()">${backBtnText[lang]}</button>`;
+    document.getElementById(id).style.display = 'block';
+}
+
+function goHome() {
+    document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
+    document.getElementById("home").style.display = "block";
+}
+
+function translate() {
+    let lang = document.getElementById("lang").value;
+    let t = translations[lang] || translations.en;
+
+    document.getElementById("title").innerHTML = t.title;
+    document.getElementById("langLabel").innerHTML = t.langLabel;
+
+    document.getElementById("communityBtn").innerHTML = t.communityBtn;
+    document.getElementById("helplineBtn").innerHTML = t.helplineBtn;
+    document.getElementById("mentorshipBtn").innerHTML = t.mentorshipBtn;
+    document.getElementById("schemesBtn").innerHTML = t.schemesBtn;
+
+    document.querySelectorAll('.section').forEach(sec => {
+        if (sec.style.display === 'block') {
+            sec.innerHTML = t[sec.id] + `<button class="back-btn" onclick="goHome()">${backBtnText[lang]}</button>`;
+        }
+    });
+}
+
+// Trigger translate immediately on language change
+document.getElementById("lang").addEventListener('change', translate);
+translate();
+</script>
+
+</body>
+</html>

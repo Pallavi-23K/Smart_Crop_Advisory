@@ -1,0 +1,18 @@
+CREATE DATABASE soil_db;
+USE soil_db;
+
+CREATE TABLE soil_samples (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    farmer_name VARCHAR(100),
+    contact VARCHAR(20),
+    field_id VARCHAR(50),
+    location VARCHAR(100),
+    ph FLOAT,
+    ec FLOAT,
+    moisture FLOAT,
+    organic_carbon FLOAT,
+    nitrogen FLOAT,
+    phosphorus FLOAT,
+    potassium FLOAT
+);
+

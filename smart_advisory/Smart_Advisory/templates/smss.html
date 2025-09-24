@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Send SMS (Demo)</title>
+<style>
+body { font-family: Arial, sans-serif; background: #f4f9f4; display: flex; height: 100vh; justify-content: center; align-items: center; }
+.card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 320px; text-align: center; }
+.input-row { display: flex; flex-direction: column; align-items: stretch; }
+input[type="text"], textarea { width: 100%; margin: 10px 0; padding: 10px; border-radius: 6px; border: 1px solid #ccc; box-sizing: border-box; font-size: 16px; }
+textarea { min-height: 48px; resize: vertical; }
+button { background: #28a745; color: white; border: none; padding: 10px; width: 100%; border-radius: 6px; cursor: pointer; font-size: 16px; }
+button:hover { background: #218838; }
+#result { margin-top: 15px; font-weight: bold; color: green; }
+</style>
+</head>
+<body>
+<div class="card">
+<h2>📩 Send SMS </h2>
+<form method="POST">
+<div class="input-row">
+<input type="text" name="phone" placeholder="Enter phone number" required />
+<textarea name="message" placeholder="Enter your message" required></textarea>
+</div>
+<button type="submit">Send</button>
+</form>
+{% if result %}
+<div id="result">{{ result }}</div>
+{% endif %}
+</div>
+</body>
+</html>

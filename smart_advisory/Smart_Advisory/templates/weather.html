@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>🌤Weather</title>
+    <style>
+        body {
+            background-color: #dfffdc;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 30px;
+        }
+        h1 { color: #333; }
+        input, select {
+            font-size: 16px;
+            padding: 10px;
+            margin: 5px;
+            width: 300px;
+        }
+        button {
+            font-size: 16px;
+            padding: 10px 20px;
+            background-color: #80d8a3;
+            border: none;
+            cursor: pointer;
+        }
+        #result {
+            margin-top: 20px;
+            text-align: left;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            white-space: pre-line;
+            max-width: 350px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🌤Weather</h1>
+    
+    <select id="language">
+        <option value="en"> English</option>
+        <option value="hi"> हिंदी (Hindi)</option>
+        <option value="kn"> ಕನ್ನಡ (Kannada)</option>
+        <option value="ta"> தமிழ் (Tamil)</option>
+    </select>
+    
+    <br />
+    
+    <input type="text" id="city" placeholder="Enter city name" required />
+    
+    <br /><br />
+    
+    <button onclick="getWeather()">☁️ Get Weather</button>
+    
+    <br /><br />
+    
+    <div id="result"></div>
+
+    <script>
+        const translations = {
+            en: {
+                city: "📍 City",
+                temp: "🌡 Temperature",
+                cond: "🌤 Condition",
+                humidity: "💧 Humidity",
+                wind: "🌬 Wind Speed",
+                rain: "🌧 Rain (last 1h)",
+                snow: "❄ Snow (last 1h)",
+                error: "⚠ Error"
+            },
+            hi: {
+                city: "📍 शहर",
+                temp: "🌡 तापमान",
+                cond: "🌤 स्थिति",
+                humidity: "💧 आर्द्रता",
+                wind: "🌬 पवन गति",
+                rain: "🌧 बारिश (पिछले 1 घंटे)",
+                snow: "❄ बर्फबारी (पिछले 1 घंटे)",
+                error: "⚠ त्रुटि"
+            },
+            kn: {
+                city: "📍 ನಗರ",
+                temp: "🌡 ತಾಪಮಾನ",
+                cond: "🌤 ಹವಾಮಾನ",
+                humidity: "💧 ಆರ್ದ್ರತೆ",
+                wind: "🌬 ಗಾಳಿಯ ವೇಗ",
+                rain: "🌧 ಮಳೆ (ಕೊನೆಯ 1 ಗಂಟೆ)",
+                snow: "❄ ಹಿಮಪಾತ (ಕೊನೆಯ 1 ಗಂಟೆ)",
+                error: "⚠ ದೋಷ"
+            },
+            ta: {
+                city: "📍 நகரம்",
+                temp: "🌡 வெப்பநிலை",
+                cond: "🌤 நிலைமை",
+                humidity: "💧 ஈரப்பதம்",
+                wind: "🌬 காற்றின் வேகம்",
+                rain: "🌧 மழை (கடந்த 1 மணி நேரம்)",
+                snow: "❄ பனி (கடந்த 1 மணி நேரம்)",
+                error: "⚠ பிழை"
+            }
+        };
+
+        async function getWeather() {
+            const city = document.getElementById("city").value.trim();
+            const lang = document.getElementById("language").value;
+            const resultDiv = document.getElementById("result");
+            const t = translations[lang] || translations['en'];
+
+            if (!city) {
+                alert("❗ Please enter a city");
+                return;
+            }
+
+            resultDiv.textContent = "Fetching weather data...";
+
+            try {
+                const response = await fetch(`http://localhost:8000/weather?city=${encodeURIComponent(city)}&lang=${lang}`);
+                const data = await response.json();
+
+                if (data.error) {
+                    resultDiv.innerHTML = `<p style="color:red;">${t.error}: ${data.error}</p>`;
+                } else {
+                    resultDiv.innerHTML = `
+${t.city}: ${data.city}
+${t.temp}: ${data.temperature} °C
+${t.cond}: ${data.condition}
+${t.humidity}: ${data.humidity}%
+${t.wind}: ${data.wind_speed} m/s
+${t.rain}: ${data.rain} mm
+${t.snow}: ${data.snow} mm
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<p style="color:red;">⚠ Failed to fetch weather data.</p>`;
+                console.error(error);
+            }
+        }
+    </script>
+</body>
+</html>

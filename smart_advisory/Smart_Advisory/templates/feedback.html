@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Feedback Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0fff0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-box {
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ccc;
+            width: 350px;
+            position: relative;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #80d8a3;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #66c58f;
+        }
+
+        #thankyou-message {
+            color: green;
+            text-align: center;
+            margin-top: 15px;
+            display: none;
+        }
+
+        /* Language Selector */
+        .language-selector {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+        }
+
+        .language-selector select {
+            padding: 5px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-box">
+        <!-- Language Selector Dropdown -->
+        <div class="language-selector">
+            <select id="language" onchange="changeLanguage()">
+                <option value="en">English</option>
+                <option value="hi">हिंदी</option>
+                <option value="kn">ಕನ್ನಡ</option>
+                <option value="ta">தமிழ்</option>
+            </select>
+        </div>
+
+        <h2 id="form-title">Feedback Form</h2>
+        <form onsubmit="showThankYou(); return false;">
+            <input type="text" name="name" id="name" placeholder="Your Name" required>
+            <textarea name="feedback" id="feedback" placeholder="Your Feedback" rows="5" required></textarea>
+            <button type="submit" id="submit-btn">Submit</button>
+        </form>
+        <p id="thankyou-message">
+            ✅ Thanks for submitting your feedback!<br>We will make sure it reaches our tech support team.
+        </p>
+    </div>
+
+    <script>
+        const translations = {
+            en: {
+                title: "Feedback Form",
+                name: "Your Name",
+                feedback: "Your Feedback",
+                submit: "Submit",
+                thanks: "✅ Thanks for submitting your feedback!<br>We will make sure it reaches our tech support team."
+            },
+            hi: {
+                title: "प्रतिक्रिया फॉर्म",
+                name: "आपका नाम",
+                feedback: "आपकी प्रतिक्रिया",
+                submit: "जमा करें",
+                thanks: "✅ आपकी प्रतिक्रिया जमा करने के लिए धन्यवाद!<br>हम सुनिश्चित करेंगे कि यह हमारी तकनीकी टीम तक पहुंचे।"
+            },
+            kn: {
+                title: "ಪ್ರತಿಕ್ರಿಯೆ ಫಾರ್ಮ್",
+                name: "ನಿಮ್ಮ ಹೆಸರು",
+                feedback: "ನಿಮ್ಮ ಪ್ರತಿಕ್ರಿಯೆ",
+                submit: "ಸಲ್ಲಿಸು",
+                thanks: "✅ ನಿಮ್ಮ ಪ್ರತಿಕ್ರಿಯೆಯನ್ನು ಸಲ್ಲಿಸಿದതിന് ಧನ್ಯವಾದಗಳು!<br>ಇದು ನಮ್ಮ ತಾಂತ್ರಿಕ ತಂಡದವರೆಗೆ ತಲುಪುವುದನ್ನು ನಾವು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳುತ್ತೇವೆ."
+            },
+            ta: {
+                title: "கருத்து படிவம்",
+                name: "உங்கள் பெயர்",
+                feedback: "உங்கள் கருத்து",
+                submit: "சமர்ப்பிக்கவும்",
+                thanks: "✅ உங்கள் கருத்தை சமர்ப்பித்ததற்கு நன்றி!<br>இது எங்கள் தொழில்நுட்ப ஆதரவு குழுவைச் சேரும் என்பதை உறுதிசெய்கிறோம்."
+            }
+        };
+
+        function changeLanguage() {
+            const lang = document.getElementById("language").value;
+            document.getElementById("form-title").innerText = translations[lang].title;
+            document.getElementById("name").placeholder = translations[lang].name;
+            document.getElementById("feedback").placeholder = translations[lang].feedback;
+            document.getElementById("submit-btn").innerText = translations[lang].submit;
+            document.getElementById("thankyou-message").innerHTML = translations[lang].thanks;
+        }
+
+        function showThankYou() {
+            document.getElementById("thankyou-message").style.display = "block";
+        }
+    </script>
+
+</body>
+</html>

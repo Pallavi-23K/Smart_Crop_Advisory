@@ -1,0 +1,11 @@
+farmer_name,contact,field_id,location,ph,ec,moisture,organic_carbon,nitrogen,phosphorus,potassium
+Ramesh,9876543210,F001,Village A,5.2,0.45,22.5,0.8,120,10,140
+Sita,9123456780,F002,Village B,6.8,0.65,28.0,1.2,180,15,200
+Mohan,9988776655,F003,Village C,7.5,1.10,30.0,0.9,140,8,100
+Geeta,9876123450,F004,Village D,5.0,0.30,18.0,0.5,90,9,120
+Arjun,9012345678,F005,Village E,8.2,1.50,25.0,1.0,200,18,250
+Lakshmi,9090909090,F006,Village F,6.2,0.70,20.0,0.7,110,12,130
+Krishna,9888888888,F007,Village G,5.8,0.40,15.0,0.6,95,11,145
+Radha,9777777777,F008,Village H,7.0,0.90,35.0,1.3,160,14,170
+Vijay,9666666666,F009,Village I,4.9,0.25,12.0,0.4,80,7,100
+Anita,9555555555,F010,Village J,6.5,0.55,27.0,1.1,175,20,210

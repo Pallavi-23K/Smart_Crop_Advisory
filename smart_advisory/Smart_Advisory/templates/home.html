@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Kissan Connect</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<!-- Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+<!-- Chatbot CSS -->
+<link href="{{ url_for('static', filename='bot.css') }}" rel="stylesheet" />
+<style>
+  /* existing custom styles here, unchanged */
+  body {
+      background: linear-gradient(135deg, #f0fff6 0%, #e8f0fc 100%);
+      min-height: 100vh;
+  }
+  .hero {
+      background: linear-gradient(120deg, #28a745 0%, #218838 100%);
+      color: #fff;
+      padding: 60px 0 40px 0;
+      border-radius: 0 0 30px 30px;
+      box-shadow: 0 4px 24px rgba(40,167,69,0.1);
+      margin-bottom: 50px;
+  }
+  .hero-title {
+      font-size: 2.7rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 0.7em;
+      letter-spacing: 1px;
+  }
+  .hero-subtitle {
+      font-size: 1.25rem;
+      font-weight: 400;
+  }
+  .card-custom {
+      border: none;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.07), 0 1.5px 3px rgba(44, 62, 80, 0.03);
+      transition: transform .13s, box-shadow .13s;
+      background: #fff;
+  }
+  .card-custom:hover {
+      transform: translateY(-7px) scale(1.035);
+      box-shadow: 0 16px 32px rgba(40,167,69,0.13), 0 2px 4px rgba(44, 62, 80, 0.05);
+  }
+  .icon-grad {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2.75rem;
+      height: 70px;
+      width: 70px;
+      border-radius: 50%;
+      margin-bottom: 18px;
+      background: linear-gradient(135deg, #c8ffce 0%, #b2e6fc 100%);
+      color: #218838;
+      box-shadow: 0 2px 8px rgba(36,168,67,0.11);
+  }
+  .bg-1 { background: linear-gradient(135deg,#d4fc79 0%,#96e6a1 100%); color: #17a043;}
+  .bg-4 { background: linear-gradient(135deg,#a1c4fd 0%,#d4fc79 100%); color: #1976d2;}
+  .card-title {
+      font-weight: 700;
+      margin-top: 7px;
+      letter-spacing: .4px;
+  }
+  .card-text {
+      font-size: 0.98rem;
+  }
+  @media (max-width: 768px) {
+      .hero-title { font-size: 2.2rem; }
+  }
+</style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark" style="background:linear-gradient(90deg,#23b746,#146d33 100%);box-shadow:0 2px 8px #3ca55c22;">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="#"><i class="bi bi-bar-chart-line me-2"></i>Kissan Connect</a>
+  </div>
+</nav>
+<section class="hero text-center">
+  <div class="container">
+    <div class="hero-title">Empowering Indian Agriculture</div>
+    <div class="hero-subtitle mb-4">Crop Intelligence, Schemes, Weather and More — all in your language.</div>
+    <a href="#dashboard" class="btn btn-lg btn-light shadow px-4 py-2" style="font-weight:600;">Get Started <i class="bi bi-arrow-down-circle ms-2"></i></a>
+  </div>
+</section>
+<div class="container" id="dashboard">
+  <div class="row g-4 justify-content-center">
+    
+    <!-- Crop Recommendation -->
+    <div class="col-md-6 col-lg-4">
+      <div class="card card-custom h-100 text-center">
+        <div class="icon-grad bg-1 mx-auto"><i class="bi bi-flower2"></i></div>
+        <div class="card-body d-flex flex-column align-items-center">
+          <h5 class="card-title">Crop Recommendation</h5>
+          <p class="card-text mb-3">Get crops suggested for your soil and local weather conditions.</p>
+          <a href="{{ url_for('crop_recommend') }}" class="btn btn-success px-4 w-75">Try Now</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pest Detection (Smart Crop Advisory) -->
+    <div class="col-md-6 col-lg-4">
+      <div class="card card-custom h-100 text-center">
+        <div class="icon-grad bg-7 mx-auto">
+          <i class="bi bi-bug"></i>
+        </div>
+        <div class="card-body d-flex flex-column align-items-center">
+          <h5 class="card-title">Pest & Disease Detection</h5>
+          <p class="card-text mb-3">Upload leaf images to detect plant pests and diseases using AI.</p>
+          <a href="{{ url_for('pest') }}" class="btn btn-success px-4 w-75">Open Advisory</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Learning Hub -->
+    <div class="col-md-6 col-lg-4">
+      <div class="card card-custom h-100 text-center">
+        <div class="icon-grad bg-4 mx-auto"><i class="bi bi-book-half"></i></div>
+        <div class="card-body d-flex flex-column align-items-center">
+          <h5 class="card-title">Learning Hub</h5>
+          <p class="card-text mb-3">Watch farming videos, read guides and best practices in your language.</p>
+          <a href="{{ url_for('farmhub') }}" class="btn btn-primary px-4 w-75">Explore</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Government Schemes -->
+    <div class="col-md-6 col-lg-4">
+      <div class="card card-custom h-100 text-center">
+        <div class="icon-grad bg-5 mx-auto"><i class="bi bi-bank"></i></div>
+        <div class="card-body d-flex flex-column align-items-center">
+          <h5 class="card-title">Govt Schemes</h5>
+          <p class="card-text mb-3">See all available schemes and incentives for farmers.</p>
+          <a href="{{ url_for('schemes_page') }}" class="btn btn-warning px-4 w-75">Browse Schemes</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Weather Service -->
+    <div class="col-md-6 col-lg-4">
+      <div class="card card-custom h-100 text-center">
+        <div class="icon-grad bg-3 mx-auto"><i class="bi bi-cloud-sun"></i></div>
+        <div class="card-body d-flex flex-column align-items-center">
+          <h5 class="card-title">Weather Service</h5>
+          <p class="card-text mb-3">Check hyper-local, real-time weather updates for any village or city.</p>
+          <a href="{{ url_for('weather_page') }}" class="btn btn-info px-4 w-75">See Weather</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Women Farmers Support -->
+    <div class="col-md-6 col-lg-4">
+      <div class="card card-custom h-100 text-center">
+        <div class="icon-grad bg-6 mx-auto"><i class="bi bi-people-fill"></i></div>
+        <div class="card-body d-flex flex-column align-items-center">
+          <h5 class="card-title">Women Farmer Support</h5>
+          <p class="card-text mb-3">Find help, helplines and join the women farmers community groups.</p>
+          <a href="{{ url_for('women_page') }}" class="btn btn-danger px-4 w-75">Join Community</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Soil Analysis -->
+    <div class="col-md-6 col-lg-4">
+      <div class="card card-custom h-100 text-center">
+        <div class="icon-grad bg-2 mx-auto"><i class="bi bi-droplet-half"></i></div>
+        <div class="card-body d-flex flex-column align-items-center">
+          <h5 class="card-title">Soil Analysis</h5>
+          <p class="card-text mb-3">Analyze your soil health, pH, and nutrients for crop recommendations.</p>
+          <a href="{{ url_for('soil_analysis_page') }}" class="btn btn-secondary px-4 w-75">Analyze Soil</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <footer class="text-center text-muted small pt-5 pb-3">
+    &copy; 2025 Smart Crop Advisory | Made for Indian Farmers
+  </footer>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Chatbot JS -->
+<script src="{{ url_for('static', filename='bot.js') }}"></script>
+</body>
+</html>
