@@ -3,7 +3,7 @@ import json
 import urllib
 import requests
 
-API_KEY = "fdf1aeb5f176d7eb550eafe53bb54c8c"  # Your OpenWeatherMap API key
+API_KEY = "your api keys"  # Your OpenWeatherMap API key
 
 class WeatherHandler(BaseHTTPRequestHandler):
     def do_GET(self):
