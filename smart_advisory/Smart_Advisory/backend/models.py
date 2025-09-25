@@ -8,7 +8,7 @@ app = Flask(__name__)
 db = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="Karthik@26",
+    password="your_pass",
     database="soil_db"
 )
 cursor = db.cursor(dictionary=True)
