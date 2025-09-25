@@ -10,7 +10,7 @@ os.makedirs("uploads", exist_ok=True)
 db = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="Karthik@26",
+    password="your_pass",
     database="soil_db"
 )
 cursor = db.cursor(dictionary=True)
