@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Soil Analysis Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .btn-custom {
+            background: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+        .btn-custom:hover {
+            background: #45a049;
+        }
+        #result, #csvResult {
+            white-space: pre-line;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card p-4 col-md-8 mx-auto">
+        <h3 class="text-center mb-4">🌱 Soil Analysis Portal</h3>
+
+        <!-- Nav Tabs -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="form-tab" data-bs-toggle="tab" data-bs-target="#formTab" type="button" role="tab">Single Entry</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="csv-tab" data-bs-toggle="tab" data-bs-target="#csvTab" type="button" role="tab">CSV Upload</button>
+            </li>
+        </ul>
+
+        <div class="tab-content mt-3" id="myTabContent">
+            <!-- 🌱 Single Entry Form -->
+            <div class="tab-pane fade show active" id="formTab" role="tabpanel">
+                <div class="mb-3">
+                    <label class="form-label">Farmer Name</label>
+                    <input type="text" id="farmerName" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Contact</label>
+                    <input type="text" id="contact" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Field ID</label>
+                    <input type="text" id="fieldId" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Location</label>
+                    <input type="text" id="location" class="form-control">
+                </div>
+
+                <!-- Soil Data -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">pH</label>
+                        <input type="number" step="0.1" id="ph" class="form-control">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">EC</label>
+                        <input type="number" step="0.1" id="ec" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Moisture</label>
+                        <input type="number" step="0.1" id="moisture" class="form-control">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Organic Carbon</label>
+                        <input type="number" step="0.1" id="organic_carbon" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Nitrogen</label>
+                        <input type="number" id="nitrogen" class="form-control">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Phosphorus</label>
+                        <input type="number" id="phosphorus" class="form-control">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Potassium</label>
+                        <input type="number" id="potassium" class="form-control">
+                    </div>
+                </div>
+
+                <!-- Language -->
+                <div class="mb-3">
+                    <label class="form-label">Choose Language</label>
+                    <select id="lang" class="form-select">
+                        <option value="en">English</option>
+                        <option value="kn">Kannada</option>
+                        <option value="hi">Hindi</option>
+                        <option value="te">Telugu</option>
+                        <option value="ta">Tamil</option>
+                        <option value="ml">Malayalam</option>
+                    </select>
+                </div>
+
+                <div class="d-grid">
+                    <button class="btn btn-custom" onclick="submitForm()">Analyze Soil</button>
+                </div>
+                <div id="result" class="alert alert-info mt-4 d-none"></div>
+            </div>
+
+            <!-- 📂 CSV Upload -->
+            <div class="tab-pane fade" id="csvTab" role="tabpanel">
+                <form id="csvForm" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label class="form-label">Upload CSV File</label>
+                        <input type="file" name="file" id="csvFile" class="form-control" accept=".csv" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Choose Language</label>
+                        <select id="csvLang" class="form-select">
+                            <option value="en">English</option>
+                            <option value="kn">Kannada</option>
+                            <option value="hi">Hindi</option>
+                            <option value="te">Telugu</option>
+                            <option value="ta">Tamil</option>
+                            <option value="ml">Malayalam</option>
+                        </select>
+                    </div>
+                    <div class="d-grid">
+                        <button type="button" class="btn btn-custom" onclick="uploadCSV()">Upload & Analyze</button>
+                    </div>
+                </form>
+                <div id="csvResult" class="mt-4 d-none">
+                    <h5>📊 Bulk Results</h5>
+                    <table class="table table-bordered table-striped mt-2">
+                        <thead>
+                            <tr>
+                                <th>Farmer</th>
+                                <th>Field</th>
+                                <th>Recommendation</th>
+                            </tr>
+                        </thead>
+                        <tbody id="csvTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function submitForm() {
+        const data = {
+            farmerName: document.getElementById("farmerName").value,
+            contact: document.getElementById("contact").value,
+            fieldId: document.getElementById("fieldId").value,
+            location: document.getElementById("location").value,
+            ph: document.getElementById("ph").value,
+            ec: document.getElementById("ec").value,
+            moisture: document.getElementById("moisture").value,
+            organic_carbon: document.getElementById("organic_carbon").value,
+            nitrogen: document.getElementById("nitrogen").value,
+            phosphorus: document.getElementById("phosphorus").value,
+            potassium: document.getElementById("potassium").value,
+            lang: document.getElementById("lang").value
+        };
+
+        const response = await fetch("/analyze", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+        const resultDiv = document.getElementById("result");
+        resultDiv.classList.remove("d-none");
+        resultDiv.innerHTML = "<b>Recommendation:</b><br>" + result.recommendation.join("<br>");
+    }
+
+    async function uploadCSV() {
+        const formData = new FormData();
+        formData.append("file", document.getElementById("csvFile").files[0]);
+        formData.append("lang", document.getElementById("csvLang").value);
+
+        const response = await fetch("/upload_csv", {
+            method: "POST",
+            body: formData
+        });
+
+        const result = await response.json();
+        const tableBody = document.getElementById("csvTableBody");
+        tableBody.innerHTML = "";
+        result.results.forEach(r => {
+            const row = `<tr>
+                <td>${r.farmer}</td>
+                <td>${r.field}</td>
+                <td>${r.recommendation.join("<br>")}</td>
+            </tr>`;
+            tableBody.innerHTML += row;
+        });
+        document.getElementById("csvResult").classList.remove("d-none");
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>CropAdvisor Chatbot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            background:#f7fafc; color:#111;
+            margin:0; padding:20px;
+        }
+        .container {
+            max-width:720px; margin:0 auto;
+        }
+        h1 {
+            margin-bottom:12px;
+            font-size:1.4rem;
+        }
+        .card {
+            background: white;
+            padding:16px;
+            border-radius:10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        label {
+            display:block;
+            margin-top:10px;
+            font-size:0.9rem;
+        }
+        input, select, button {
+            width:100%;
+            padding:8px 10px;
+            margin-top:6px;
+            border-radius:6px;
+            border:1px solid #dbe4ea;
+            box-sizing:border-box;
+        }
+        .row {
+            display:flex;
+            gap:10px;
+            margin-top:12px;
+        }
+        button {
+            padding:10px 12px;
+            border-radius:8px;
+            border:none;
+            cursor:pointer;
+            background:#0ea5a4;
+            color:white;
+        }
+        button#useMyLocation {
+            background:#64748b;
+        }
+        .response {
+            margin-top:14px;
+            background:#f1f5f9;
+            padding:12px;
+            border-radius:8px;
+            white-space:pre-wrap;
+        }
+        footer {
+            margin-top:10px;
+            color:#475569;
+            font-size:0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CropAdvisor — Chatbot</h1>
+
+        <div class="card">
+            <label for="language">Choose language:</label>
+            <select id="language">
+                <option value="english" selected>English</option>
+                <option value="hindi">Hindi</option>
+                <option value="kannada">Kannada</option>
+                <option value="marathi">Marathi</option>
+                <option value="telugu">Telugu</option>
+                <option value="tamil">Tamil</option>
+                <option value="gujarati">Gujarati</option>
+                <option value="bengali">Bengali</option>
+            </select>
+
+            <label for="soil">Soil type:</label>
+            <select id="soil">
+                <option value="loamy">Loamy</option>
+                <option value="clay">Clay</option>
+                <option value="sandy">Sandy</option>
+                <option value="other">Other</option>
+            </select>
+
+            <label for="latitude">Latitude:</label>
+            <input id="latitude" type="number" step="any" placeholder="e.g. 12.9716" />
+
+            <label for="longitude">Longitude:</label>
+            <input id="longitude" type="number" step="any" placeholder="e.g. 77.5946" />
+
+            <label for="month">Month (optional):</label>
+            <input id="month" type="number" min="1" max="12" placeholder="1-12 (optional)" />
+
+            <div class="row">
+                <button type="button" id="useMyLocation">Use my location</button>
+                <button type="button" id="askBtn">Ask Chatbot</button>
+            </div>
+
+            <div id="response" class="response"></div>
+        </div>
+        <footer>&copy; 2025 Smart Crop Advisory | Made for Indian Farmers</footer>
+    </div>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const language = document.getElementById("language");
+        const soil = document.getElementById("soil");
+        const latInp = document.getElementById("latitude");
+        const lonInp = document.getElementById("longitude");
+        const monthInp = document.getElementById("month");
+        const askBtn = document.getElementById("askBtn");
+        const useMyLocation = document.getElementById("useMyLocation");
+        const responseDiv = document.getElementById("response");
+
+        useMyLocation.addEventListener("click", () => {
+            if (!navigator.geolocation) {
+                alert("Geolocation not supported in your browser.");
+                return;
+            }
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    latInp.value = pos.coords.latitude.toFixed(6);
+                    lonInp.value = pos.coords.longitude.toFixed(6);
+                },
+                (err) => {
+                    alert("Unable to get location: " + err.message);
+                }
+            );
+        });
+
+        askBtn.addEventListener("click", async () => {
+            const payload = {
+                language: language.value,
+                soil: soil.value,
+                latitude: latInp.value,
+                longitude: lonInp.value,
+                month: monthInp.value || null
+            };
+
+            responseDiv.innerText = "Thinking...";
+            try {
+                const res = await fetch("/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (!data.ok) {
+                    responseDiv.innerText = data.message || "Error";
+                    return;
+                }
+                // show translated message (string) plus structured numbers
+                responseDiv.innerHTML = `
+                    <pre>${data.message}</pre>
+                    <b>Temperature:</b> ${data.data.temperature_c} °C<br/>
+                    <b>Rainfall (monthly):</b> ${data.data.rainfall_mm} mm<br/>
+                    <b>Recommended:</b> ${data.data.recommended_crops.join(", ")}
+                `;
+            } catch (err) {
+                responseDiv.innerText = "Error contacting server: " + err.message;
+            }
+        });
+    });
+    </script>
+</body>
+</html>

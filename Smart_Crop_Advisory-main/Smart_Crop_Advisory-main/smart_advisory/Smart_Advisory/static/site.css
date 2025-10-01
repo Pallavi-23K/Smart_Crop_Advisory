@@ -1,0 +1,33 @@
+/* Global site styles */
+.card-custom { border: none; border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.06); transition: transform .18s ease, box-shadow .18s ease; }
+.card-custom:hover { transform: translateY(-8px); box-shadow: 0 18px 40px rgba(0,0,0,0.12); }
+
+.icon-grad { height:64px; width:64px; display:flex; align-items:center; justify-content:center; border-radius:50%; margin-bottom:12px; }
+.icon-grad.bg-1 { background: linear-gradient(135deg,#0d6efd,#0b5ed7); }
+.icon-grad.bg-2 { background: linear-gradient(135deg,#198754,#146c43); }
+.icon-grad.bg-3 { background: linear-gradient(135deg,#0dcaf0,#0aa2bd); }
+.icon-grad.bg-4 { background: linear-gradient(135deg,#0dcaf0,#20c997); }
+.icon-grad.bg-5 { background: linear-gradient(135deg,#ffc107,#ffb020); }
+.icon-grad.bg-6 { background: linear-gradient(135deg,#6c757d,#495057); }
+.icon-grad.bg-7 { background: linear-gradient(135deg,#6610f2,#5a0fd1); }
+.icon-grad.bg-8 { background: linear-gradient(135deg,#20c997,#198754); }
+
+.btn-hover-effect { transition: transform .12s ease, box-shadow .12s ease; }
+.btn-hover-effect:hover, .btn-hover-effect:focus { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+
+@media (max-width: 575px) { .hero-title { font-size: 1.6rem; } }
+
+/* Hero / carousel styles */
+.hero { position: relative; }
+.hero-img { height: 420px; object-fit: cover; width: 100%; filter: brightness(0.86); }
+.carousel-caption { bottom: 24%; left: 6%; right: 6%; text-align: left; }
+.hero-title { font-size: 2.25rem; font-weight: 700; color: #fff; }
+.text-shadow { text-shadow: 0 6px 18px rgba(0,0,0,0.45); }
+
+/* real-time bar (market ticker + clock) */
+.real-time-bar { background: rgba(0,0,0,0.55); color: #fff; }
+.real-time-bar .btn-outline-light { border-color: rgba(255,255,255,0.45); color: #fff; }
+.real-time-bar #marketTicker { max-width: 720px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+@media (max-width: 767px) { .hero-img { height: 260px; } .carousel-caption { bottom: 10%; } .hero-title { font-size: 1.4rem; } }
+

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Farmers Learning Hub</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4fff4; color: #083; margin: 20px; }
+    .container { max-width: 900px; margin: 0 auto; text-align: center; }
+    h1 { color: #0a6b2f; margin-bottom: 10px; }
+    .controls { margin: 18px 0; }
+    input[type="text"], select { padding: 10px; width: 320px; max-width: 80%; border-radius: 6px; border: 1px solid #cfd8cf; }
+    button { padding: 10px 16px; border-radius: 6px; background: #0a6b2f; color: white; border: none; cursor: pointer; }
+    button:hover { background: #084f20; }
+    .card { background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 18px; text-align: left; margin-top: 18px; }
+    .card h2 { color: #0a6b2f; margin: 0 0 8px 0; }
+    .desc { margin: 8px 0 14px 0; color: #333; }
+    iframe { width: 100%; height: 450px; border-radius: 8px; border: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 id="heading">Farmers Learning Hub</h1>
+
+    <div class="controls">
+      <input id="cropInput" type="text" placeholder="Search for crops..." />
+      <select id="langSelect">
+        {% for lang in languages %}
+          <option value="{{ lang }}">{{ lang }}</option>
+        {% endfor %}
+      </select>
+      <button id="searchBtn">Search</button>
+    </div>
+
+    <div id="resultArea"></div>
+  </div>
+
+  <script>
+    // initial language
+    const langSelect = document.getElementById('langSelect');
+    const cropInput = document.getElementById('cropInput');
+    const heading = document.getElementById('heading');
+    const searchBtn = document.getElementById('searchBtn');
+    const resultArea = document.getElementById('resultArea');
+
+    async function doSearch() {
+      const crop = cropInput.value.trim();
+      const lang = langSelect.value;
+
+      // request /search
+      const res = await fetch(`/search?crop=${encodeURIComponent(crop)}&lang=${encodeURIComponent(lang)}`);
+      const data = await res.json();
+
+      // update UI texts
+      heading.innerText = data.ui.heading;
+      cropInput.placeholder = data.ui.search;
+      searchBtn.innerText = data.ui.button;
+
+      // show result
+      const cropInfo = data.crop;
+      if (!cropInfo || !cropInfo.name) {
+        resultArea.innerHTML = '';
+        return;
+      }
+
+      if (cropInfo.name === data.ui.not_found || cropInfo.name === "Not found") {
+        resultArea.innerHTML = `<div class="card"><h2>${cropInfo.name}</h2><p class="desc">${cropInfo.description || ''}</p></div>`;
+        return;
+      }
+
+      // build card with description and video
+      const videoHtml = cropInfo.video ? `<iframe src="${cropInfo.video}" allowfullscreen></iframe>` : '';
+      resultArea.innerHTML = `
+        <div class="card">
+          <h2>${cropInfo.name}</h2>
+          <p class="desc">${cropInfo.description}</p>
+          ${videoHtml}
+        </div>
+      `;
+    }
+
+    // search on button click
+    searchBtn.addEventListener('click', doSearch);
+
+    // also search when Enter pressed in input
+    cropInput.addEventListener('keydown', function(e){
+      if (e.key === 'Enter') {
+        doSearch();
+        e.preventDefault();
+      }
+    });
+
+    // update UI when language changes (reflect UI texts)
+    langSelect.addEventListener('change', async () => {
+      // call search with empty crop to get UI texts for that language
+      const res = await fetch(`/search?crop=&lang=${encodeURIComponent(langSelect.value)}`);
+      const data = await res.json();
+      heading.innerText = data.ui.heading;
+      cropInput.placeholder = data.ui.search;
+      searchBtn.innerText = data.ui.button;
+      resultArea.innerHTML = ''; // clear old result when language changes
+    });
+
+    // initialize UI texts to selected language on load
+    window.addEventListener('load', () => {
+      const evt = new Event('change');
+      langSelect.dispatchEvent(evt);
+    });
+  </script>
+</body>
+</html>
